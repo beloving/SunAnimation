@@ -6,7 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 
 /**
@@ -27,6 +29,8 @@ public class SunAnimation extends View {
     private Paint mAuthorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
 
+    private float mMouthWidth;
+
     private float mRadius;
 
     public SunAnimation(Context context, AttributeSet attrs) {
@@ -42,7 +46,7 @@ public class SunAnimation extends View {
     }
 
     private void AutoStartAnimation() {
-        ValueAnimator animator = ValueAnimator.ofFloat(0, 15, 0, -15);
+        ValueAnimator animator = ValueAnimator.ofFloat(-15, 15);
         animator.setDuration(1000);
         animator.setRepeatCount(-1);
         animator.setRepeatMode(ValueAnimator.REVERSE);
@@ -70,6 +74,8 @@ public class SunAnimation extends View {
         mEyePaint.setStyle(Paint.Style.FILL);
 
         mMouthPaint.setColor(mMouthColor);
+        mMouthPaint.setStyle(Paint.Style.STROKE);
+        mMouthPaint.setStrokeWidth(mMouthWidth);
 
         mAuthorPaint.setColor(Color.parseColor("#EE7600"));
         mAuthorPaint.setTextSize(25);
@@ -97,6 +103,8 @@ public class SunAnimation extends View {
         mSunFaceColor = Color.parseColor("#11000000");
         mSunEyeColor = Color.parseColor("#000000");
         mMouthColor = Color.parseColor("#E9967A");
+
+        mMouthWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, context.getResources().getDisplayMetrics());
     }
 
 
@@ -187,8 +195,7 @@ public class SunAnimation extends View {
         canvas.drawCircle(getWidth() / 2 + getWidth() / 10, getHeight() / 2 - getHeight() / 12, 23, mEyePaint);
 
         //绘制嘴巴
-        Path path = new Path();
-        path.moveTo(getWidth() / 2, getHeight() / 2);
-        canvas.drawPath(path, mMouthPaint);
+        RectF oval1 = new RectF(getWidth() / 2 - 25, getHeight() / 2 - 15, getWidth() / 2 + 25, getHeight() / 2 + 15);
+        canvas.drawArc(oval1, 0, 180, false, mMouthPaint);//小弧形
     }
 }

@@ -4,4 +4,5 @@
 
 ## 截图
 
-<img src="screencut/device-2016-07-03-223726.png" />
+<img src="screencut/device-2016-07-04-081114.png" width="360" height="640"/>
+<img src="screencut/device-2016-07-04-081136.png" width="360" height="640"/>
