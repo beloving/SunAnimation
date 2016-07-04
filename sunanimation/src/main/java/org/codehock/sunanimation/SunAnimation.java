@@ -99,10 +99,10 @@ public class SunAnimation extends View {
      * @param context
      */
     private void initializeDefaultValue(Context context) {
-        mSunBackgroundColor = Color.parseColor("#FFB90F");
-        mSunFaceColor = Color.parseColor("#11000000");
-        mSunEyeColor = Color.parseColor("#000000");
-        mMouthColor = Color.parseColor("#E9967A");
+        mSunBackgroundColor = Color.parseColor("#FCEE9E");
+        mSunFaceColor = Color.parseColor("#F9D06A");
+        mSunEyeColor = Color.parseColor("#030001");
+        mMouthColor = Color.parseColor("#E8A053");
 
         mMouthWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, context.getResources().getDisplayMetrics());
     }
@@ -197,5 +197,6 @@ public class SunAnimation extends View {
         //绘制嘴巴
         RectF oval1 = new RectF(getWidth() / 2 - 25, getHeight() / 2 - 15, getWidth() / 2 + 25, getHeight() / 2 + 15);
         canvas.drawArc(oval1, 0, 180, false, mMouthPaint);//小弧形
+
     }
 }
