@@ -5,7 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 
 /**
@@ -15,15 +17,41 @@ import android.view.View;
 public class ScaleSunAnimation extends View {
 
     private Paint mGrasslandPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint mSkyCloudPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint mSkySunPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+    private RectF mSkyCloundRectF = new RectF();
+    private RectF mSkyMiniCloundRectF = new RectF();
+    private float mSkyWidth, mSkyHeight;
+    private float mSkyMiniWidth, mSkyMiniHeight;
+
+    private float mSunCx, mSunCy, mSunRadius;
 
 
     public ScaleSunAnimation(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        mSkyCloudPaint.setColor(Color.WHITE);
+        mSkyCloudPaint.setStyle(Paint.Style.FILL);
+
+        mSkySunPaint.setColor(Color.parseColor("#33FFFFFF"));
+        mSkySunPaint.setStyle(Paint.Style.FILL);
+
+        mSkyWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 66,
+                context.getResources().getDisplayMetrics());
+        mSkyHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25,
+                context.getResources().getDisplayMetrics());
+
+        mSkyMiniWidth = mSkyWidth / 3 * 2;
+        mSkyMiniHeight = mSkyHeight / 3 * 2;
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+
+        mSunCx = getWidth() / 2;
+        mSunCy = getHeight() / 3;
     }
 
     @Override
@@ -63,7 +91,9 @@ public class ScaleSunAnimation extends View {
      * @param canvas
      */
     private void drawSkySun(Canvas canvas) {
-
+        canvas.save();
+        mSunRadius = getWidth() / 5;
+        canvas.drawCircle(mSunCx, mSunCy, mSunRadius, mSkySunPaint);
     }
 
     /**
@@ -72,7 +102,35 @@ public class ScaleSunAnimation extends View {
      * @param canvas
      */
     private void drawSkyClouds(Canvas canvas) {
+        canvas.save();
+        mSkyCloundRectF.left = getWidth() / 4 - mSkyWidth / 2;
+        mSkyCloundRectF.top = getHeight() / 6;
+        mSkyCloundRectF.right = getWidth() / 4 + mSkyWidth / 2;
+        mSkyCloundRectF.bottom = getHeight() / 6 + mSkyHeight;
 
+        canvas.drawRoundRect(mSkyCloundRectF, mSkyHeight / 2, mSkyHeight / 2, mSkyCloudPaint);
+
+        mSkyMiniCloundRectF.left = getWidth() / 4 - mSkyMiniWidth / 2;
+        mSkyMiniCloundRectF.top = getHeight() / 6 - mSkyMiniHeight / 2;
+        mSkyMiniCloundRectF.right = getWidth() / 4 + mSkyMiniWidth / 2;
+        mSkyMiniCloundRectF.bottom = getHeight() / 6 + mSkyMiniHeight;
+
+        canvas.drawRoundRect(mSkyMiniCloundRectF, mSkyMiniHeight / 2, mSkyMiniHeight / 2, mSkyCloudPaint);
+
+
+        mSkyCloundRectF.left = getWidth() / 4 * 3 - mSkyWidth / 2;
+        mSkyCloundRectF.top = getHeight() / 6;
+        mSkyCloundRectF.right = getWidth() / 4 * 3 + mSkyWidth / 2;
+        mSkyCloundRectF.bottom = getHeight() / 6 + mSkyHeight;
+
+        canvas.drawRoundRect(mSkyCloundRectF, mSkyHeight / 2, mSkyHeight / 2, mSkyCloudPaint);
+
+        mSkyMiniCloundRectF.left = getWidth() / 4 * 3 - mSkyMiniWidth / 2;
+        mSkyMiniCloundRectF.top = getHeight() / 6 - mSkyMiniHeight / 2;
+        mSkyMiniCloundRectF.right = getWidth() / 4 * 3 + mSkyMiniWidth / 2;
+        mSkyMiniCloundRectF.bottom = getHeight() / 6 + mSkyMiniHeight;
+
+        canvas.drawRoundRect(mSkyMiniCloundRectF, mSkyMiniHeight / 2, mSkyMiniHeight / 2, mSkyCloudPaint);
     }
 
     /**
@@ -82,13 +140,13 @@ public class ScaleSunAnimation extends View {
      */
     private void drawGrassland(Canvas canvas) {
 
-        mGrasslandPaint.setColor(Color.parseColor("#ff0000"));
-        mGrasslandPaint.setStrokeWidth(29);
-        mGrasslandPaint.setStyle(Paint.Style.STROKE);
-        Path path = new Path();
-        path.moveTo(80, 80);
-        path.quadTo(120, 120, 140, 66);
-        path.quadTo(160, 20, 200, 66);
-        canvas.drawPath(path, mGrasslandPaint);
+//        mGrasslandPaint.setColor(Color.parseColor("#ff0000"));
+//        mGrasslandPaint.setStrokeWidth(29);
+//        mGrasslandPaint.setStyle(Paint.Style.STROKE);
+//        Path path = new Path();
+//        path.moveTo(80, 80);
+//        path.quadTo(120, 120, 140, 66);
+//        path.quadTo(160, 20, 200, 66);
+//        canvas.drawPath(path, mGrasslandPaint);
     }
 }

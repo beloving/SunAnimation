@@ -135,7 +135,7 @@ public class SunAnimation extends View {
         drawSunEyeAndOther(canvas);
 
         /*-绘制署名信息-*/
-        drawAuthor(canvas);
+//        drawAuthor(canvas);
     }
 
     /**
@@ -153,7 +153,7 @@ public class SunAnimation extends View {
      * @param canvas
      */
     private void drawSunBackground(Canvas canvas) {
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, getHeight() / 2, mBackgroundPaint);
+        canvas.drawCircle(getWidth() / 2, getHeight() / 2, getHeight() / 2 - 20, mBackgroundPaint);
     }
 
     /**
