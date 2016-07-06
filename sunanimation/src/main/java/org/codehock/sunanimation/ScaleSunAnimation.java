@@ -133,11 +133,6 @@ public class ScaleSunAnimation extends View {
         canvas.save();
         mSunRadius = getWidth() / 5;
         canvas.drawCircle(mSunCx, mSunCy, mSunRadius, mSkySunPaint);
-
-        Path path = new Path();
-        path.moveTo(0, 200);
-        path.cubicTo(150, 40, 300, 80, 400, 180);
-        canvas.drawPath(path, mSkySunFrontPaint);
     }
 
     /**
