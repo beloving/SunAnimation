@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -19,6 +20,7 @@ public class ScaleSunAnimation extends View {
     private Paint mGrasslandPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mSkyCloudPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mSkySunPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint mSkySunFrontPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     private RectF mSkyCloundRectF = new RectF();
     private RectF mSkyMiniCloundRectF = new RectF();
@@ -26,6 +28,12 @@ public class ScaleSunAnimation extends View {
     private float mSkyMiniWidth, mSkyMiniHeight;
 
     private float mSunCx, mSunCy, mSunRadius;
+    private float mGridHeight;
+
+    private float mGridLeft;
+    private float mGridTop;
+
+    private float mPathWidth;
 
 
     public ScaleSunAnimation(Context context, AttributeSet attrs) {
@@ -37,6 +45,9 @@ public class ScaleSunAnimation extends View {
         mSkySunPaint.setColor(Color.parseColor("#33FFFFFF"));
         mSkySunPaint.setStyle(Paint.Style.FILL);
 
+        mSkySunFrontPaint.setColor(Color.parseColor("#FCC542"));
+        mSkySunFrontPaint.setStyle(Paint.Style.FILL);
+
         mSkyWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 66,
                 context.getResources().getDisplayMetrics());
         mSkyHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25,
@@ -44,6 +55,7 @@ public class ScaleSunAnimation extends View {
 
         mSkyMiniWidth = mSkyWidth / 3 * 2;
         mSkyMiniHeight = mSkyHeight / 3 * 2;
+
     }
 
     @Override
@@ -52,6 +64,13 @@ public class ScaleSunAnimation extends View {
 
         mSunCx = getWidth() / 2;
         mSunCy = getHeight() / 3;
+
+        mGridHeight = getHeight() / 3 / 4;
+
+        mGridLeft = 0;
+        mGridTop = getHeight() / 3 * 2;
+
+        mPathWidth = getWidth() / 4;
     }
 
     @Override
@@ -62,6 +81,9 @@ public class ScaleSunAnimation extends View {
         canvas.drawColor(Color.parseColor("#5983FD"));
 
         canvas.save();
+
+        /*-绘制草地绘制单元格-*/
+        drawGrasslandGrid(canvas);
 
         /*-绘制地面草地颜色-*/
         drawGrassland(canvas);
@@ -74,6 +96,23 @@ public class ScaleSunAnimation extends View {
 
         /*-绘制太阳的倒影-*/
         drawSunMirror(canvas);
+    }
+
+    private void drawGrasslandGrid(Canvas canvas) {
+        Paint mGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mGridPaint.setColor(Color.WHITE);
+        mGridPaint.setStyle(Paint.Style.FILL);
+        Rect rect = new Rect((int) mGridLeft, (int) mGridTop, getWidth(), getHeight());
+        canvas.drawRect(rect, mGridPaint);
+
+        Paint mGridCellPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mGridCellPaint.setColor(Color.BLACK);
+        mGridCellPaint.setStyle(Paint.Style.STROKE);
+        mGridCellPaint.setStrokeWidth(2);
+
+        for (int i = 0; i < 3; i++) {
+            canvas.drawLine(0, mGridTop + mGridHeight * (i + 1), getWidth(), mGridTop + mGridHeight * (i + 1), mGridCellPaint);
+        }
     }
 
     /**
@@ -94,6 +133,11 @@ public class ScaleSunAnimation extends View {
         canvas.save();
         mSunRadius = getWidth() / 5;
         canvas.drawCircle(mSunCx, mSunCy, mSunRadius, mSkySunPaint);
+
+        Path path = new Path();
+        path.moveTo(0, 200);
+        path.cubicTo(150, 40, 300, 80, 400, 180);
+        canvas.drawPath(path, mSkySunFrontPaint);
     }
 
     /**
