@@ -46,7 +46,7 @@ public class ScaleSunAnimation extends View {
         mSkySunPaint.setStyle(Paint.Style.FILL);
 
         mSkySunFrontPaint.setColor(Color.parseColor("#FCC542"));
-        mSkySunFrontPaint.setStyle(Paint.Style.FILL);
+        mSkySunFrontPaint.setStyle(Paint.Style.STROKE);
 
         mSkyWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 66,
                 context.getResources().getDisplayMetrics());
@@ -99,20 +99,7 @@ public class ScaleSunAnimation extends View {
     }
 
     private void drawGrasslandGrid(Canvas canvas) {
-        Paint mGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mGridPaint.setColor(Color.WHITE);
-        mGridPaint.setStyle(Paint.Style.FILL);
-        Rect rect = new Rect((int) mGridLeft, (int) mGridTop, getWidth(), getHeight());
-        canvas.drawRect(rect, mGridPaint);
 
-        Paint mGridCellPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mGridCellPaint.setColor(Color.BLACK);
-        mGridCellPaint.setStyle(Paint.Style.STROKE);
-        mGridCellPaint.setStrokeWidth(2);
-
-        for (int i = 0; i < 3; i++) {
-            canvas.drawLine(0, mGridTop + mGridHeight * (i + 1), getWidth(), mGridTop + mGridHeight * (i + 1), mGridCellPaint);
-        }
     }
 
     /**
@@ -133,6 +120,20 @@ public class ScaleSunAnimation extends View {
         canvas.save();
         mSunRadius = getWidth() / 5;
         canvas.drawCircle(mSunCx, mSunCy, mSunRadius, mSkySunPaint);
+
+        Path path = new Path();
+
+        float width = mSunCx / 4;
+        path.moveTo(-width * 1, mSunCy + 100);
+        path.quadTo(width * 1, mSunCy - 100, width * 2, mSunCy);
+        path.quadTo(width * 3, mSunCy + 100, width * 4, mSunCy);
+        canvas.drawPath(path, mSkySunFrontPaint);
+    }
+
+    public static class Point {
+
+        public float x;
+        public float y;
     }
 
     /**
