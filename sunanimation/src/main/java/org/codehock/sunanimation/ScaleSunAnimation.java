@@ -47,6 +47,7 @@ public class ScaleSunAnimation extends View {
 
         mSkySunFrontPaint.setColor(Color.parseColor("#FCC542"));
         mSkySunFrontPaint.setStyle(Paint.Style.STROKE);
+        mSkySunFrontPaint.setStrokeWidth(30);
 
         mSkyWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 66,
                 context.getResources().getDisplayMetrics());
@@ -121,19 +122,13 @@ public class ScaleSunAnimation extends View {
         mSunRadius = getWidth() / 5;
         canvas.drawCircle(mSunCx, mSunCy, mSunRadius, mSkySunPaint);
 
-        Path path = new Path();
+//        Path path = new Path();
 
-        float width = mSunCx / 4;
-        path.moveTo(-width * 1, mSunCy + 100);
-        path.quadTo(width * 1, mSunCy - 100, width * 2, mSunCy);
-        path.quadTo(width * 3, mSunCy + 100, width * 4, mSunCy);
-        canvas.drawPath(path, mSkySunFrontPaint);
-    }
-
-    public static class Point {
-
-        public float x;
-        public float y;
+//        float width = mSunCx / 3;
+//        path.moveTo(mSunCx - width, mSunCy + 180);
+//        path.quadTo(mSunCx + width, mSunCy - 180, mSunCx + width * 2, mSunCy);
+//        path.quadTo(mSunCx + width * 3, mSunCy + 180, mSunCx + width * 4, mSunCy);
+//        canvas.drawPath(path, mSkySunFrontPaint);
     }
 
     /**
